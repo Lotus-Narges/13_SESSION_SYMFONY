@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormationController!{% endblock %}
+
+{% block body %}
+
+    <h1> List of the Formations </h1>
+    {% for formation in formations %}
+
+        {# striptags('<br>') -> Allow us to ignore the <br> tag #}
+        {# raw -> The raw filter marks the value as being "safe", which means that in an environment with automatic escaping enabled this variable will not be escaped if raw is the last filter applied to it #}
+        {{formation | striptags('<br>') | raw }} <br>
+        <a class="btn btn-warning" href="{{path('edit_formation', {'id':formation.id})}}"> Edit </a>
+        <a class="btn btn-danger" href="{{path('delete_formation', {'id':formation.id})}}"> Delete </a>
+        <br>
+        <br>
+    {% endfor %}
+    <br>
+    <button><a class="btn bg-transparent" href="{{path('add_formation')}}"> Add a Formation </a></button><br>
+    
+{% endblock %}

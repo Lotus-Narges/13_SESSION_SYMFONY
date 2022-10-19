@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ModuleController!{% endblock %}
+
+{% block body %}
+
+    <h1> List of the Modules </h1>
+    {% for module in modules %}
+
+        {# striptags('<br>') -> Allow us to ignore the <br> tag #}
+        {# raw -> The raw filter marks the value as being "safe", which means that in an environment with automatic escaping enabled this variable will not be escaped if raw is the last filter applied to it #}
+        {{module | striptags('<br>') | raw }} <br>
+        <a class="btn btn-warning" href="{{path('edit_module', {'id':module.id})}}"> Edit </a>
+        <a class="btn btn-danger" href="{{path('delete_module', {'id':module.id})}}"> Delete </a>
+        <br>
+        <br>
+    {% endfor %}
+    <br>
+    <button><a class="btn bg-transparent" href="{{path('add_module')}}"> Add a Module </a></button><br>
+    
+{% endblock %}

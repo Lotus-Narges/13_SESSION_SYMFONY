@@ -1,0 +1,21 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %} Add Intern {% endblock %}
+
+{% block body %}
+
+    <div class="form">
+        {% if 'edit' %}
+            <h1> Edit an Intern </h1>
+        {% else %}
+            <h1> Add an Intern </h1>
+        {% endif %}
+        <br>
+        {# form() -> twig native function to show a form #}
+        {# The key value of the associative array in add function in /InternController #}
+        {{form(formAddIntern)}}
+    </div>
+
+{% endblock %}
+

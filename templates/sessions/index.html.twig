@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SessionsController!{% endblock %}
+
+{% block body %}
+
+    <h1> List of Sessions </h1>
+
+    <table class="table table-dark">
+        <tr>
+            <td>Title_session</td>
+            <td>Starting_date</td>
+            <td>Ending_date</td>
+            <td>Period</td>
+            <td>Rserved_places</td>
+            <td>Free_places</td>
+            <td>Total_places</td>
+            <td>Details</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+
+        {% for session in sessions %}
+            <tr>
+            {# here what we put after Inter. is the name of the getter function in Entity/entity.php #}
+                <td>{{ session.titleSession }}</td>
+                {# Here we get an error that "Object of class DateTime could not be converted to string" #}
+                {# Fixing -> | date("d/m/Y") #}
+                <td>{{ session.startingDate | date("d/m/Y")}}</td>
+                <td>{{ session.endingDate | date("d/m/Y")}}</td>
+                <td>{{ session.maxPeriodDay }}</td>
+                <td>{{ session.interns | length }}</td>
+                <td>{{ session.totalPlaces - (session.interns | length) }}</td>
+                <td>{{ session.totalPlaces }}</td>
+                {# Each time we want to call sth with id-> we need call id also in the path #}
+                <td><a class="btn btn-info" href="{{path('show_sessions', {'id':session.id})}}"> More </a></td>
+                <td><a class="btn btn-warning" href="{{path('edit_sessions', {'id':session.id})}}"> Edit </a></td>
+                <td><a class="btn btn-danger" href="{{path('delete_sessions', {'id':session.id})}}"> Delete </a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+    <br>
+    <button><a class="btn bg-transparent" href="{{path('add_sessions')}}"> Add a Session </a></button><br>
+
+
+
+    {# {% for session in sessions %}
+
+        {# striptags('<br>') -> Allow us to ignore the <br> tag #}
+        {# raw -> The raw filter marks the value as being "safe", which means that in an environment with automatic escaping enabled this variable will not be escaped if raw is the last filter applied to it #}
+        {# {{session | striptags('<br>') | raw }}<br> #}
+    {# {% endfor %} #} 
+
+{% endblock %}

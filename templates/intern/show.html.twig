@@ -1,0 +1,36 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Intern{% endblock %}
+
+{% block body %}
+
+    <h1> Details of {{intern}}: </h1>
+
+    <p>
+    First name: {{intern.firstName}} <br>
+    Last name: {{intern.lastName}} <br>
+    Sex: {{intern.sex}} <br>
+    Birth date: {{intern.birthDate | date("d/m/Y")}} ({{intern.age}} years) <br>
+    Mail: {{intern.mail}} <br>
+    Phone number: {{intern.phoneNumber}} <br>
+    City: {{intern.city}} <br>
+    </p>
+    <br>
+
+{# !Scheduled Sessions:---------------------------------------------------------------------------------------------------------------------------------------------- #}
+    
+    <h2> Scheduled Sessions: </h2>
+
+    {# In Entity/Sessions -> we have a method getInterns() -> which is an array of collections and we use this to get the interns of each session #}
+    {# for intern in session.interns -> (session=object) & (interns=collection) #}
+    {% if intern.sessions | length == 0 %}
+        <p> No Programme found for {{intern}}</p>
+    {% else %}
+        {% for sessions in intern.sessions %}
+                <a href="{{path('show_sessions', {'id':sessions.id})}}">{{sessions}}</a><br>  
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

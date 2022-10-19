@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Add Formation {% endblock %}
+
+{% block body %}
+
+    <div class="form">
+        {% if 'edit' %}
+            <h1> Edit a Formation </h1>
+        {% else %}
+            <h1> Add a Formation </h1>
+        {% endif %}
+        <br>
+        {# form() -> twig native function to show a form #}
+        {# The key value of the associative array in add function in /InternController #}
+        {{form(formAddFormation)}}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session{% endblock %}
+
+{% block body %}
+
+    <h1> Details of {{session}}: </h1>
+    <p>
+    Session_Title: {{session.titleSession}} <br>
+    Starting_date: {{session.startingDate | date("d/m/Y")}} <br>
+    Ending_date: {{session.endingDate | date("d/m/Y")}}  <br>
+    Period: {{ session.period}} days <br>
+    Reserved_places: {{session.reservedPlaces}} <br>
+    Free_places: {{session.freePlaces}} <br>
+    Total_places: {{session.totalPlaces}} <br>
+    </p>
+    <br>
+    <br>
+    <hr>
+
+
+{# !------------------------------------------------------------------------------------------------------------------------------- #}
+    
+    <h2>Detail of the modules of the training plan: </h2> 
+    <table>
+        <tr>
+            <td>Module</td>
+            <td>Category</td>
+            <td>Period</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+
+        {% for cours in session.cours %}
+            <tr>
+            {#  cours -> object of SessionCours class Entity/sessions.php, 
+                cours (in session entity the method the gets the collection of sessionCours named cours)-> (method getCours(): ?Module) in Entity/sessionCours.php (allow us to get the module = cours entity in DB ),    
+                titleModule -> Method Entity/module.php which allow us to get the title of the module #}
+                <td>{{ cours.cours.titleModule }}</td>
+            {#  cours -> object of SessionCours class Entity/sessions.php, 
+                cours (in session entity the method the gets the collection of sessionCours named cours)-> (method getCours(): ?Module) in Entity/sessionCours.php (allow us to get the module = cours entity in DB ), 
+                category -> method getCategory -> gts the object of Category class Entity/module.php, 
+                titleCategory -> Method Entity/category.php which allow us to get the title of the category#}
+                <td>{{ cours.cours.category.titleCategory}}</td>
+                {#! The module entity in named Cours in MVC but in code is module #}
+            {#  cours -> (method getCours(): ?Module) in Entity/sessionCours.php, 
+                periodDay -> function getPeriodDay(): ?int in Entity/sessionCours.php#}
+                <td>{{ cours.periodDay}} days</td>
+                <td><a class="btn btn-warning" href="{{path('edit_session_cours', {'id':cours.cours.id})}}"> Edit </a></td>
+                <td><a class="btn btn-danger" href="{{path('delete_session_cours', {'id':cours.cours.id})}}"> Delete </a></td>
+            </tr>
+        {% endfor %}
+    </table> 
+    <br>
+        <button><a class="btn bg-transparent" href="{{path('add_session_cours')}}"> Add a Programme </a></button><br>
+    <br>
+    <br>
+    <hr>
+
+
+
+{# !REGISTERED interns---------------------------------------------------------------------------------------------------------------------------------------------- #}
+
+    <h2> List of REGISTERED interns: </h2>
+    {# In Entity/Sessions -> we have a method getInterns() -> which is an array of collections and we use this to get the interns of each session #}
+    {# for intern in session.interns -> (session=object) & (interns=collection) #}
+    {% if session.interns | length == 0 %}
+        <p> No Intern found in this session </p>
+    {% else %}
+        <table>
+            <tr>
+                <td>Intern(s)</td>
+                <td>UnRegister</td>
+            </tr>
+            {% for intern in session.interns %}
+                <tr>
+                    <td><a href="{{path('show_intern', {'id':intern.id})}}">{{intern}}</a></td>
+                    <td><a class="btn btn-danger" href=" {{ path('remove_session_intern', {'idSe': session.id, 'idI': intern.id}) }}"> unRegister </a></td>
+                </tr>    
+            {% endfor %}
+        </table>
+    {% endif %}
+    <br>
+    <br>
+    <hr>
+
+
+{# !NOT registered interns:------------------------------------------------------------------------------------------------------------------------------------------------- #}
+
+    <h2> List of NOT registered interns: </h2>
+
+    {% if notRegisteredInterns | length == 0 %}
+        <p> No Intern found in this session </p>
+    {% else %}
+        <table>
+            <tr>
+                <td>Intern(s)</td>
+                <td>Register</td>
+            </tr>
+            {% for intern in notRegisteredInterns %}
+                <tr>
+                    <td><a href="{{path('show_intern', {'id':intern.id})}}">{{intern}}</a></td>
+                    <td><a class="btn btn-success" href="{{path('add_session_intern', {'idSe':session.id  ,'idI':intern.id})}}"> Register </a></td>
+                </tr>    
+            {% endfor %}
+        </table>
+    {% endif %}
+    <br>
+
+{% endblock %}
+
+

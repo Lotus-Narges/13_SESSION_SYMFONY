@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+
+    <table>
+        <tr>
+            <td>Module</td>
+            <td>Session</td>
+            <td>Period</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+
+        {% for sessionCourse in sessionCourses %}
+            <tr>
+                <td>{{ sessionCourse.cours.titleModule }}</td>  
+                <td>{{ sessionCourse.sessions.titleSession}} days</td>
+                <td>{{ sessionCourse.periodDay}} days</td>
+                <td><a class="btn btn-warning" href="{{path('edit_session_cours', {'id':sessionCourse.id})}}"> Edit </a></td>
+                <td><a class="btn btn-danger" href="{{path('delete_session_cours', {'id':sessionCourse.id})}}"> Delete </a></td>
+            </tr>
+        {% endfor %}
+
+    </table> 
+    <br>
+    <button><a class="btn bg-transparent" href="{{path('add_session_cours')}}"> Add a Programme </a></button><br>
+    
+{% endblock %}
